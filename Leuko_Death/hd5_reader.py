@@ -76,7 +76,6 @@ def hd5_reader(videoname, resolution, max_proj):
               currentVolume = np.array(dataset.get('DataSet').get(quality).get(ii).get(channels[channel]).get('Data'))
 
               zxyct[:,:,:,channel,time] = currentVolume
-
-      output = zxyct
-
-return output
+            
+        output = zxyct
+    return output
