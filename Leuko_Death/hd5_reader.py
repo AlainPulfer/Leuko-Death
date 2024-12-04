@@ -63,9 +63,11 @@ def hd5_reader(videoname, resolution, max_proj):
 
   if max_proj == False:
 
-      hdf5_store = h5py.File("./cache.hdf5", "a")
+      #hdf5_store = h5py.File("./cache.hdf5", "w")
 
-      zxyct =  hdf5_store.create_dataset("zxyct",(dimension[0],dimension[1],dimension[2],nChannels,nTimePoints), compression="gzip")
+      #zxyct =  hdf5_store.create_dataset("zxyct",(dimension[0],dimension[1],dimension[2],nChannels,nTimePoints), compression="gzip")
+
+      zxyct = np.zeros((dimension[0], dimension[1],dimension[2],nChannels,nTimePoints))
 
       for ii in datatimes:
 
