@@ -77,5 +77,6 @@ def hd5_reader(videoname, resolution, max_proj):
 
               zxyct[:,:,:,channel,time] = currentVolume
             
-        output = zxyct
-    return output
+      output = zxyct
+    
+  return output
