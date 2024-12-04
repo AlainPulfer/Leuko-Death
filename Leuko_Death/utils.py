@@ -5,6 +5,7 @@ import pandas as pd
 import os
 from PIL import Image
 import imageio
+import numpy as np
 
 
 def display_3Dvolume(movie_3D, channel, time, zoom_factor=2, opacity=0.1, surface_count=20):
