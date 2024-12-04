@@ -44,7 +44,7 @@ def hd5_reader(videoname, resolution, max_proj):
 
       for ii in datatimes:
 
-          time = np.int32(re.findall(r'\d+', ii)[0])
+          time = int(re.findall(r'\d+', ii)[0])
 
           for channel in range(0,nChannels):
 
@@ -69,7 +69,7 @@ def hd5_reader(videoname, resolution, max_proj):
 
       for ii in datatimes:
 
-          time = np.int(re.findall(r'\d+', ii)[0])
+          time = int(re.findall(r'\d+', ii)[0])
 
           for channel in range(0,nChannels):
 
