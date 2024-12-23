@@ -1,6 +1,6 @@
 # Leuko-Death  
 
-**Leuko-Death** is a Python toolkit for processing and analyzing two-photon intravital movies stored in HDF5 files. The repository provides functionalities to read HDF5 movies, extract and save frames, and visualize 3D volumes. It also includes utilities for inspecting movie metadata and working with annotations.  
+**Leuko-Death** is a Python toolkit for reading movies of cell death events acquired with two-photon intravital microscopy and stored in HDF5 files. The repository provides functionalities to read HDF5 movies, extract and save frames, and visualize 2D and 3D volumes. This repository and the related data provide the basis to build derivative datasets to design and test computational methods for the detectin and classifcation of cell death. 
 
 ## Features  
 - **HDF5 Reader**:  
@@ -20,56 +20,96 @@
    git clone https://github.com/AlainPulfer/Leuko-Death.git  
    cd Leuko-Death
 
-   pip install requirements.txt
+2. Clone the repository:  
+   ```bash  
+   pip install requirement.txt
+
+## Download files from Zenodo
+
+1. Download target movie:  
+   ```python  
+   import requests
+
+   response = requests.get('https://zenodo.org/api/records/13787839')
+   file_name = 'Neu1.h5'  #specify here the
+   metadata = response.json()
+
+   files = metadata['files']
+   file_url = next(file['links']['self'] for file in files if file['key'] == file_name)
+   file_response = requests.get(file_url)
+
+   with open(file_name, 'wb') as file:
+    for chunk in file_response.iter_content(chunk_size=1024):
+        if chunk:
+            file.write(chunk)
+
+2. Download zip file containing annotations:  
+   ```python
+   file_name = 'Annotations.zip'
+   metadata = response.json()
+   files = metadata['files']
+   file_url = next(file['links']['self'] for file in files if file['key'] == file_name)
+   file_response = requests.get(file_url)
+
+   with open(file_name, 'wb') as file:
+    for chunk in file_response.iter_content(chunk_size=1024):
+        if chunk:
+            file.write(chunk)
 
 ## Usage 
 
-import sys  
-sys.path.append('/path/to/Leuko-Death')  
+1. Append pathway of repository:  
+   ```python
+   import sys
+   sys.path.append('/path/to/Leuko-Death')  
 
-# Reading HDF5 movies
+2. Reading HDF5 movies:
+   ```python
+   from Leuko_Death import hd5_reader
+   movie_2D = hd5_reader('Neu1.h5', 0, 1)
+   movie_3D = hd5_reader('Neu1.h5', 0, 0)  
 
-from Leuko_Death import hd5_reader  
- 
-movie_2D = hd5_reader('Neu1.h5', 0, 1)  
+3. Inspecting movies metadata:
+   ```python
+   x_res = movie_2D.shape[0]
+   y_res = movie_2D.shape[1]
+   channels = movie_2D.shape[2]
+   frame_duration = movie_2D.shape[3]
+   
+   print(f"Number of channels: {channels}")
+   print(f"X resolution: {x_res}")
+   print(f"Y resolution: {y_res}")
+   print(f"Frame duration: {frame_duration}")  
 
-movie_3D = hd5_reader('Neu1.h5', 0, 0)  
+4. Display 2D scene:
+   ```python
 
-# Inspecting movie metadata
+   from matplotlib import pyplot as plt
 
-x_res = movie_2D.shape[0]  
-y_res = movie_2D.shape[1]  
-channels = movie_2D.shape[2]  
-frame_duration = movie_2D.shape[3]  
+   time = 1
 
-print(f"Number of channels: {channels}")  
-print(f"X resolution: {x_res}")  
-print(f"Y resolution: {y_res}")  
-print(f"Frame duration: {frame_duration}")  
+   channel = 0
 
-# Display 2D scene
+   scene_2D = movie_2D[:, :, channel, time]
 
-from matplotlib import pyplot as plt  
+   plt.imshow(scene_2D, cmap='gray')
+   plt.show()
 
-time = 1  
-channel = 0  
-scene_2D = movie_2D[:, :, channel, time]  
-plt.imshow(scene_2D, cmap='gray')  
-plt.show()
+5. Display 3D scene:
+   ```python
+   scene_3D = movie_3D[:,:,:,channel, time]
 
-# Display 3D scene
+   display_3Dvolume(scene_3D, channel=0, time=10, zoom_factor=2)
 
-scene_3D = movie_3D[:,:,:,channel, time]
+6. Exctract and saves in TIFF file froms of cell death sequence annotated Select annotation containing tracks of cell deaths and exctract the corresponding frames in multi TIFF file:
+   ```python
 
-display_3Dvolume(scene_3D, channel=0, time=10, zoom_factor=2)
+   annotation_path = '/content/Annotations/Cell deaths/Neu1_ch1.xls'
 
-# Select annotation containing tracks of cell deaths and exctract the corresponding frames in multi TIFF file
+   extract_and_save_frames(annotation_path, movie_2D, channel=0, output_folder="/content/result", square_size=59)
 
-annotation_path = '/content/Annotations/Cell deaths/Neu1_ch1.xls'
-extract_and_save_frames(annotation_path, movie_2D, channel=0, output_folder="/content/result", square_size=59)
-
-## Data Access
+# Data Access
 You can download sample HDF5 movies and annotation files from Zenodo: https://zenodo.org/api/records/13787839
 
-##License
+# License
 This project is licensed under the MIT License. See the LICENSE file for details.
