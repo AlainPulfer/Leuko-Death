@@ -106,13 +106,16 @@
 
    extract_and_save_frames(annotation_path, movie_2D, channel=0, output_folder="/content/result", square_size=59)
 
+# Demo
+The following link is a demo for the use of Leuko-Death in Colab: [Open in Colab](https://colab.research.google.com/drive/1v063vofn-dUwEjd8qWW8qaGyuXwpriBy#scrollTo=PeEih678oKaR)
+
 # Data Access
 You can download the HDF5 movies and annotation files from:
 https://zenodo.org/api/records/13787839
 https://app.immunemap.org/cddb
 
 # License
-This project is licensed under the MIT License. See the LICENSE file for details.
+This project is licensed under the GPL 3.0 License. See the LICENSE file for details.
 
 
-[!Open in Colab](https://colab.research.google.com/drive/1v063vofn-dUwEjd8qWW8qaGyuXwpriBy#scrollTo=PeEih678oKaR)
+
