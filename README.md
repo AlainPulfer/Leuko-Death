@@ -87,9 +87,7 @@
    from matplotlib import pyplot as plt
 
    time = 1
-
    channel = 0
-
    scene_2D = movie_2D[:, :, channel, time]
 
    plt.imshow(scene_2D, cmap='gray')
@@ -109,7 +107,9 @@
    extract_and_save_frames(annotation_path, movie_2D, channel=0, output_folder="/content/result", square_size=59)
 
 # Data Access
-You can download sample HDF5 movies and annotation files from Zenodo: https://zenodo.org/api/records/13787839
+You can download the HDF5 movies and annotation files from:
+https://zenodo.org/api/records/13787839
+https://app.immunemap.org/cddb
 
 # License
 This project is licensed under the MIT License. See the LICENSE file for details.
